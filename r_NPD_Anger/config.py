@@ -1,4 +1,3 @@
-# tweepy-bots/bots/config.py
 import tweepy as tw
 import logging
 import os

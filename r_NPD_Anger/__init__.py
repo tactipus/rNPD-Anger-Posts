@@ -1,9 +1,6 @@
 import os
-from flask import Flask
 from r_NPD_Anger.database import *
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, inspect
-from sqlalchemy import MetaData, Table, Column, Text
 
 
 def create_app(test_config=None):
@@ -14,7 +11,7 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'r_NPD_Anger.sqlite'),
     )
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/pnalzate/Documents/GitHub' \
-                                            '/rNPD_Anger_Posts_Project/instance/r_NPD_Anger.sqlite'
+                                            '/rNPD-Anger-Posts/instance/r_NPD_Anger.sqlite'
     db = SQLAlchemy(app)
 
     db.Model.metadata.reflect(db.engine)

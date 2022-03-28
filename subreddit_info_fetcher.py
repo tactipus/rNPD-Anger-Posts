@@ -1,17 +1,14 @@
 import praw
 import pandas as pd
-import datetime as dt
 import os
-import sys
-import time
-from psaw import PushshiftAPI
 import datetime as dt
 from sqlalchemy import create_engine
+from sqlalchemy import exc
 
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
-username = os.environ.get('USERNAME')
-password = os.environ.get('PASSWORD')
+client_id = os.getenv('CLIENT_ID')
+client_secret = os.getenv('CLIENT_SECRET')
+username = os.getenv('USERNAME')
+password = os.getenv('PASSWORD')
 
 reddit = praw.Reddit(client_id=client_id, \
                      client_secret=client_secret, \
@@ -43,5 +40,11 @@ for submission in NPD.search("anger OR angry OR pissed OR upset", limit=1000):
     topics_dict["ups"].append(submission.ups)
 
 topics_data = pd.DataFrame(topics_dict)
-engine = create_engine("sqlite:////Users/pnalzate/Documents/GitHub/rNPD_Anger_Posts_Project/instance/r_NPD_Anger.sqlite", echo=False)
-topics_data.to_sql('posts', con=engine, if_exists="append", index=False)
+engine = create_engine("sqlite:////Users/pnalzate/Documents/GitHub/rNPD-Anger-Posts/instance/r_NPD_Anger.sqlite", echo=False)
+
+for i in range(len(topics_data)):
+    try:
+        topics_data.iloc[i:i + 1].to_sql(name="posts", if_exists='append', con=engine, index=False)
+        print("Not a duplicate.")
+    except exc.IntegrityError as e:
+        print("Integrity Error. Data could not be appended.")
