@@ -1,7 +1,7 @@
 <head>
     <link rel="stylesheet" href="static/style.css">
 </head>
-<h1>Posts from r/NPD Related to Anger</h1>
+<h1>Posts from Narcissist Subreddits Related to Anger</h1>
 <body>
     <div class="table-responsive">
         <table class="table table-sm table-borderless mb-0">
@@ -21,7 +21,8 @@
                 {% for post in posts.items %}
                 <tr>
                     <th scope="row" class="id_column">{{ loop.index }}</th>
-                    <td class="title">{{ post.title }}</td>
+                    <td class="title"><a href={{post.link}}>{{ post.title }}</a></td>
+<!--                    <td class="link"><a href=""{{ post.link }}</td>-->
                     <td class="center_rows">{{ post.author }}</td>
                     <td class="center_rows">{{ post.score }}</td>
                     <td class="center_rows">{{ post.time_created }}</td>

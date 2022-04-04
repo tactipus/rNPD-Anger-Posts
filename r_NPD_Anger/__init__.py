@@ -1,6 +1,7 @@
 import os
 from r_NPD_Anger.database import *
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import cast, Integer, desc
 
 
 def create_app(test_config=None):
@@ -46,14 +47,13 @@ def create_app(test_config=None):
     class Post(db.Model):
         __table__ = db.Model.metadata.tables['posts']
 
+    ROWS_PER_PAGE = 20
 
-    ROWS_PER_PAGE = 15
-
-    @app.route('/NPD_Anger', methods=['GET'])
+    @app.route('/narcissism_project', methods=['GET'])
     def angry_posts():
         page = request.args.get('page', 1, type=int)
-        posts = Post.query.paginate(page=page, per_page=ROWS_PER_PAGE)
+        posts = Post.query.order_by(desc(cast(Post.comms_num, Integer))).paginate(page=page, per_page=ROWS_PER_PAGE)
 
-        return render_template('NPD_Anger.html', posts=posts)
+        return render_template('narcissism_project.html', posts=posts)
 
     return app

@@ -17,9 +17,11 @@ reddit = praw.Reddit(client_id=client_id, \
                      password=password)
 
 NPD = reddit.subreddit("NPD")
+narcissism = reddit.subreddit("narcissism")
 
 topics_dict = { "id": [],
                 "title": [],
+                "link": [],
                 "author": [],
                 "score": [],
                 "time_created": [],
@@ -28,9 +30,22 @@ topics_dict = { "id": [],
                 "ups": []
                 }
 
-for submission in NPD.search("anger OR angry OR pissed OR upset", limit=1000):
+for submission in NPD.search("anger AND shame", limit=1000):
     topics_dict["id"].append(submission.id)
     topics_dict["title"].append(submission.title)
+    topics_dict["link"].append("https://www.reddit.com" + submission.permalink)
+    topics_dict["author"].append(str(submission.author))
+    topics_dict["score"].append(submission.score)
+    time = int(submission.created_utc)
+    topics_dict["time_created"].append(dt.datetime.utcfromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S'))
+    topics_dict["comms_num"].append(submission.num_comments)
+    topics_dict["body"].append(submission.selftext)
+    topics_dict["ups"].append(submission.ups)
+
+for submission in narcissism.search("anger AND shame", limit=1000):
+    topics_dict["id"].append(submission.id)
+    topics_dict["title"].append(submission.title)
+    topics_dict["link"].append("https://www.reddit.com" + submission.permalink)
     topics_dict["author"].append(str(submission.author))
     topics_dict["score"].append(submission.score)
     time = int(submission.created_utc)

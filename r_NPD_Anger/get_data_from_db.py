@@ -41,12 +41,12 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 
-def email_getter():
-    emails = {}
-    key = 0
-
-    for email in query_db('select * from email'):
-        emails[key] = email[1]
-        key += 1
-
-    return emails
+# def email_getter():
+#     emails = {}
+#     key = 0
+#
+#     for email in query_db('select * from email'):
+#         emails[key] = email[1]
+#         key += 1
+#
+#     return emails
