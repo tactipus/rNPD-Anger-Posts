@@ -1,3 +1,4 @@
+[label __init__.py]
 import os
 from r_NPD_Anger.database import *
 from flask_sqlalchemy import SQLAlchemy
